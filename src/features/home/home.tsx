@@ -54,10 +54,8 @@ export default function Home() {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     // Add basic support for operands
     if (operands.includes(event.key)) {
-      addTag(event.key)
-      if (inputRef.current) {
-        inputRef.current.value = ""
-      }
+      console.log(inputRef.current.value)
+      addTag(inputRef.current.value + event.key)
     }
 
     if (event.key === 'Backspace' && query === '' && tags.length > 0) {
@@ -84,7 +82,7 @@ export default function Home() {
       }
       const data = getAutoCompleteResults(categories, debounceQuery)
       setSuggestions(data)
-    })();
+    })()
   }, [debounceQuery, categories])
 
   // move focus to the input field when tags change 
