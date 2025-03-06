@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import { text, type TextVariants } from "./text.styles";
 
-type AllowedElements = Pick<JSX.IntrinsicElements, "h1" | "h2" | "h3" | "h4" | "p" | "span">;
+type AllowedElements = Pick<React.JSX.IntrinsicElements, "h1" | "h2" | "h3" | "h4" | "p" | "span">;
 
 type ElementsByType = Record<NonNullable<TextVariants["type"]>, keyof AllowedElements>;
 
@@ -21,7 +21,7 @@ const elements: ElementsByType = {
 type VariantProperties = Pick<TextVariants, "type">;
 
 type NativeProperties<TElement extends keyof AllowedElements> = Omit<
-  JSX.IntrinsicElements[TElement],
+  React.JSX.IntrinsicElements[TElement],
   "ref" | "children" | "tw"
 >;
 

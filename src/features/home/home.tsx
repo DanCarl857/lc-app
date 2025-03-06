@@ -29,19 +29,12 @@ export default function Home() {
     return categories.filter((category) => category.name.toLowerCase().includes(query.toLowerCase()))
   }
 
-  // Evaluate whatever the user types in
-  const handleSubmit = () => {
-
-  }
-
   // Handle whatever is being typed...
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     setQuery(value)
 
     if (operands.includes(value)) {
-      console.log(value)
-      console.log('show me the money')
       setSuggestions(categories)
     }
 
@@ -61,15 +54,16 @@ export default function Home() {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Backspace' && query === '' && tags.length > 0) {
       // Remove the last tag when backspace is pressed and input is empty
-      const newTags = [...tags];
-      newTags.pop();
-      setTags(newTags);
+      const newTags = [...tags]
+      newTags.pop()
+      setTags(newTags)
     } else if (event.key === 'Enter' && query.trim() !== '') {
       // Add a new tag when Enter is pressed
-      const newTag: Tag = { id: Date.now().toString(), value: query.trim(), name: query };
-      setTags([...tags, newTag]);
-      setQuery('');
-      setSuggestions([]);
+      // const newTag: Tag = { id: Date.now().toString(), value: query.trim(), name: query }
+      // setTags([...tags, newTag])
+      // setQuery('')
+      // setSuggestions([])
+      addTag(query.trim())
     }
   }
 
@@ -83,7 +77,7 @@ export default function Home() {
       const data = getAutoCompleteResults(categories, debounceQuery)
       setSuggestions(data)
     })();
-  }, [debounceQuery])
+  }, [debounceQuery, categories])
 
   // move focus to the input field when tags change 
   useEffect(() => {
@@ -97,7 +91,7 @@ export default function Home() {
     setLoading(isFetching)
   }, [isFetching, setLoading])
 
-  if (isLoading) return <div className="flex justify-center items-center"><h2>Fetching data...</h2></div>
+  if (isLoading) return <div className="flex w-full h-full justify-center items-center"><h2>Fetching data...</h2></div>
   if (error) return <h2>Error: {error}</h2>
 
 
@@ -151,10 +145,10 @@ export default function Home() {
           </div>
           <div className="p-4 border border-neutral-4 w-[100%]">
             <div className="flex flex-wrap items-center gap-2">
-              {tags.map((tag) => (
+              {tags.map((tag, index) => (
                 <TagWithDropdown
                   categories={categories}
-                  key={tag.id}
+                  key={`page` + index}
                   tag={tag}
                   onSelect={handleDropdownSelect}
                 />
@@ -171,8 +165,8 @@ export default function Home() {
           </div>
           <div className="drop-shadow rounded-lg border border-neutral-3 mt-2">
             {suggestions.length > 0 && (
-              <div className="mt-2">
-                {suggestions.map((suggestion) => (
+              <div className="mt-4">
+                {suggestions.length > 0 && suggestions.map((suggestion) => (
                   <button
                     key={suggestion.id}
                     onClick={() => handleSuggestionClick(suggestion.name)}
@@ -198,6 +192,8 @@ const TagWithDropdown: React.FC<{
 }> = ({ tag, onSelect, categories }) => {
   const [dropdownValue, setDropdownValue] = useState<string>(tag.value)
 
+  const isCategory = categories.some((cat) => cat.name === tag.name)
+
   // Sync dropdownValue with tag.value
   useEffect(() => {
     setDropdownValue(tag.value)
@@ -215,20 +211,22 @@ const TagWithDropdown: React.FC<{
   }
 
   return (
-    <div className="cursor-pointer flex items-center gap-1 p-1 bg-neutral-3 rounded-full">
+    <div className={`${isCategory && "bg-neutral-3"} cursor-pointer flex items-center gap-1 p-1 rounded-full`}>
       <span className="px-2 py-1 rounded-full text-sm">{tag.name}</span>
-      <select
-        value={dropdownValue}
-        onChange={handleDropdownChange}
-        className="w-[20px] bg-neutral-3 p-1 rounded focus:outline-none text-sm"
-      >
-        <option value="">Select a category</option>
-        {categories.map((category) => (
-          <option key={`tag` + category.name} value={category.name}>
-            {category.name}
-          </option>
-        ))}
-      </select>
+      {isCategory && (
+        <select
+          value={dropdownValue}
+          onChange={handleDropdownChange}
+          className="w-[20px] bg-neutral-3 p-1 rounded focus:outline-none text-sm"
+        >
+          <option value="">Select a category</option>
+          {categories.map((category, index) => (
+            <option key={`tag` + index} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      )}
     </div >
   );
 
