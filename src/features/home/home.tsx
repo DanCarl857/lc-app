@@ -13,6 +13,7 @@ interface Tag {
   value: string;
 }
 
+const operands = ["+", "-", "*", "/", "(", ")", "^"]
 
 export default function Home() {
   const [query, setQuery] = useState("")
@@ -38,12 +39,20 @@ export default function Home() {
     const value = event.target.value
     setQuery(value)
 
-    // Show suggestions
+    if (operands.includes(value)) {
+      console.log(value)
+      console.log('show me the money')
+      setSuggestions(categories)
+    }
+
+    // show suggestions when an operand is typed or something from the categories list is typed
     if (value.length > 0) {
-      const filteredCategories = categories.filter((category) => category.name.toLowerCase().startsWith(value))
-      setSuggestions(filteredCategories)
+      const filteredCategories = categories.filter((category) =>
+        category.name.toLowerCase().startsWith(value)
+      );
+      setSuggestions(filteredCategories);
     } else {
-      setSuggestions([])
+      setSuggestions([]);
     }
   }
 
@@ -88,20 +97,38 @@ export default function Home() {
     setLoading(isFetching)
   }, [isFetching, setLoading])
 
-  if (isLoading) return <h2>Fetching data...</h2>
+  if (isLoading) return <div className="flex justify-center items-center"><h2>Fetching data...</h2></div>
   if (error) return <h2>Error: {error}</h2>
 
+
   // Handle dropdown selection for a tag
-  const handleDropdownSelect = (tagId: string, selectedValue: string) => {
+  const handleDropdownSelect = (
+    tagId: string,
+    selectedValue: string,
+    selectedName: string
+  ) => {
     const updatedTags = tags.map((tag) =>
-      tag.id === tagId ? { ...tag, value: selectedValue } : tag
-    );
-    setTags(updatedTags);
+      tag.id === tagId
+        ? { ...tag, value: selectedValue, name: selectedName }
+        : tag
+    )
+    setTags(updatedTags)
+  }
+
+  const addTag = (value: string) => {
+    const category = categories.find((cat) => cat.name === value);
+    const newTag: Tag = {
+      id: Date.now().toString(),
+      value: category ? category.value : value,
+      name: category ? category.name : value,
+    };
+    setTags([...tags, newTag])
+    setQuery("")
+    setSuggestions([])
   }
 
   const handleSuggestionClick = (suggestion: string) => {
-    setQuery(suggestion)
-    setSuggestions([])
+    addTag(suggestion)
   }
 
 
@@ -167,33 +194,43 @@ export default function Home() {
 const TagWithDropdown: React.FC<{
   categories: Category[];
   tag: Tag;
-  onSelect: (tagId: string, selectedValue: string) => void;
+  onSelect: (tagId: string, selectedValue: string, selectedName: string) => void;
 }> = ({ tag, onSelect, categories }) => {
-  const [dropdownValue, setDropdownValue] = useState<string>(tag.name)
+  const [dropdownValue, setDropdownValue] = useState<string>(tag.value)
+
+  // Sync dropdownValue with tag.value
+  useEffect(() => {
+    setDropdownValue(tag.value)
+  }, [tag.value])
 
   const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value
-    console.log({ selectedValue })
-    setDropdownValue(selectedValue)
-    onSelect(tag.id, selectedValue)
-  };
+    const selectedCategory = categories.find((cat) => cat.name === selectedValue)
+
+    if (selectedCategory) {
+      // Update the tag with the selected category's name and value
+      setDropdownValue(selectedValue)
+      onSelect(tag.id, selectedValue, selectedCategory.name)
+    }
+  }
 
   return (
     <div className="cursor-pointer flex items-center gap-1 p-1 bg-neutral-3 rounded-full">
-      <span className="px-2 py-1 rounded-full">{tag.name}</span>
+      <span className="px-2 py-1 rounded-full text-sm">{tag.name}</span>
       <select
         value={dropdownValue}
         onChange={handleDropdownChange}
-        className="bg-neutral-3 p-1 w-[20px] rounded focus:outline-none"
+        className="w-[20px] bg-neutral-3 p-1 rounded focus:outline-none text-sm"
       >
-        <option value=""></option>
-        {
-          categories.map((category) => (
-            <option value={category.value}>{category.name}</option>
-          ))
-        }
+        <option value="">Select a category</option>
+        {categories.map((category) => (
+          <option key={`tag` + category.name} value={category.name}>
+            {category.name}
+          </option>
+        ))}
       </select>
-    </div>
+    </div >
   );
+
 };
 
