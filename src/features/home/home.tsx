@@ -13,7 +13,7 @@ interface Tag {
   value: string;
 }
 
-const operands = ["+", "-", "*", "/", "(", ")", "^"]
+const operands = ["+", "-", "*", "/", "(", ")", "^", "=", "!"]
 
 export default function Home() {
   const [query, setQuery] = useState("")
