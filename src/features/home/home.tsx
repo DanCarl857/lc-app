@@ -139,6 +139,10 @@ export default function Home() {
           <div className="flex flex-row justify-between">
             <div className="flex gap-2 flex-col">
               <p className="text-17 text-grey-2 font-500">Start Typing...</p>
+              <p className="text-[14px] text-grey-2 font-light">Use names such as (name 1) to get autosuggestions, for everything else press enter to store that query</p>
+              <p className="text-[14px] text-grey-2 font-light">Backspace to delete</p>
+
+              <p className="text-[14px] text-grey-2 font-light">Bugs: Be sure to delete extra operand after adding an operand</p>
             </div>
 
           </div>
