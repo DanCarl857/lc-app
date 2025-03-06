@@ -1,7 +1,8 @@
 export interface Category {
   id: number;
-  title: string;
-  body: string;
+  name: string;
+  value: string;
+  category: string;
 }
 
 export interface StoreState {

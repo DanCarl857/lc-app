@@ -1,18 +1,24 @@
 "use client";
 
 import { useFetchCategories } from "@/core/api";
+import { Category } from "@/hooks/types";
 import useDebounceValue from "@/hooks/useDebounceValue";
 import useStore from "@/hooks/useStore";
 import { Text } from "@/ui/components/text";
 import { useEffect, useState } from "react";
 
+
 export default function Home() {
   const [query, setQuery] = useState("")
-  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [suggestions, setSuggestions] = useState<Category[] | void>([])
   const debounceQuery = useDebounceValue(query)
 
   const { categories, isLoading, error, setLoading } = useStore()
   const { isFetching } = useFetchCategories()
+
+  const getAutoCompleteResults = (categories: Category[], query: string) => {
+    return categories.filter((category) => category.name.toLowerCase().includes(query.toLowerCase()))
+  }
 
   useEffect(() => {
     (async () => {
@@ -21,8 +27,9 @@ export default function Home() {
         return
       }
       console.log(debounceQuery)
-      // const data = await getAutoCompleteResults(debounceQuery)
-      // setSuggestions(data)
+      const data = getAutoCompleteResults(categories, debounceQuery)
+      console.log({ data })
+      setSuggestions(data)
     })();
   }, [debounceQuery])
 
@@ -32,6 +39,8 @@ export default function Home() {
 
   if (isLoading) return <h2>Loading...</h2>
   if (error) return <h2>Error: {error}</h2>
+
+  // console.log(suggestions)
 
   return (
     <main className="flex flex-wrap justify-between items-center mx-auto max-w-screen-md">
