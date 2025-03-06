@@ -52,6 +52,14 @@ export default function Home() {
 
   // Handle key down events (e.g., backspace, enter)
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // Add basic support for operands
+    if (operands.includes(event.key)) {
+      addTag(event.key)
+      if (inputRef.current) {
+        inputRef.current.value = ""
+      }
+    }
+
     if (event.key === 'Backspace' && query === '' && tags.length > 0) {
       // Remove the last tag when backspace is pressed and input is empty
       const newTags = [...tags]
