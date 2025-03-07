@@ -10,8 +10,6 @@ export default function Home() {
   const { categories, isLoading, error, setLoading } = useStore()
   const { isFetching } = useFetchCategories()
 
-  // Set loading to true or false depending on whether we are still in the process
-  // of fetching categories
   useEffect(() => {
     setLoading(isFetching)
   }, [isFetching, setLoading])
@@ -26,7 +24,7 @@ export default function Home() {
           <div className="flex flex-row justify-between">
             <div className="flex gap-2 flex-col">
               <p className="text-17 text-grey-2 font-500">Start Typing...</p>
-              <p className="text-[14px] text-grey-2 font-light">Use @ to see possible suggestions</p>
+              <p className="text-[14px] text-grey-2 font-light">Use '@' to see possible suggestions</p>
               <p className="text-[14px] text-grey-2 font-light">Backspace to delete</p>
             </div>
 
@@ -36,9 +34,7 @@ export default function Home() {
           <Text type="heading1" className="font-bold mb-4">
             LC App
           </Text>
-          <div>
-            <MentionInput categories={categories} />
-          </div>
+          <MentionInput categories={categories} />
         </div>
       </div>
     </main>
