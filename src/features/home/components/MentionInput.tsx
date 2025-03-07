@@ -30,7 +30,7 @@ const MentionInput: React.FC<{
   const [suggestions, setSuggestions] = useState<MentionData[]>(categories)
   const [open, setOpen] = useState(true)
   const [isFocused, setIsFocused] = useState(true)
-  const [results, setResults] = useState(0)
+  const [results] = useState(0)
 
   // Draft-JS editor configuration
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
