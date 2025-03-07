@@ -14,7 +14,10 @@ export default function Home() {
     setLoading(isFetching)
   }, [isFetching, setLoading])
 
+  // Display loading message to user when we are still fetching data
   if (isLoading) return <div className="flex w-full h-full justify-center items-center"><h2>Fetching data...</h2></div>
+
+  // Show error message in case of an error
   if (error) return <h2>Error: {error}</h2>
 
   return (
