@@ -1,24 +1,36 @@
 import React from "react";
-import { IoIosArrowDropdown } from "react-icons/io"
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown"
+import useStore from "@/hooks/useStore"
+import { Text } from "@/ui/components/text"
+import { Category } from "@/hooks/types";
 
 interface MentionProps {
-  mention: {
-    name: string;
-    category: string;
-    value: string;
-    id: string;
-  };
+  mention: Category;
 }
 
 const MentionComponent = ({ mention }: MentionProps) => {
   console.log(mention)
+  const { categories } = useStore()
+
   const handleClick = () => {
     console.log("we just clicked")
   }
+
   return (
     <span onClick={handleClick} className="w-fit items-center gap-2 rounded-lg px-2 py-1 bg-blue-5 cursor-pointer">
-      {mention.name} &#9660;
-    </span>
+      <Dropdown className="focuse:outline-none">
+        <DropdownTrigger>
+          <button className="focus:outline-none">{mention.name} &#9660;</button>
+        </DropdownTrigger>
+        <DropdownMenu aria-label="Static Actions" className="outline-none drop-shadow bg-surface max-h-[400px] overflow-y-auto">
+          {categories.map((category) => (
+            <DropdownItem key={category.id} className="hover:bg-neutral-3 hover:rounded-lg">
+              <Text className="text-[14px]">{category.name}</Text>
+            </DropdownItem>
+          ))}
+        </DropdownMenu>
+      </Dropdown>
+    </span >
   )
 }
 

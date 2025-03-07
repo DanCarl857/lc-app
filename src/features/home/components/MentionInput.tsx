@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 
 import "@draft-js-plugins/mention/lib/plugin.css"
 import { EditorState } from "draft-js"
@@ -8,13 +8,12 @@ import createMentionPlugin, {
   MentionData
 } from "@draft-js-plugins/mention"
 import { Category } from "@/hooks/types"
-import { EntryComponentProps } from "@draft-js-plugins/mention/lib/MentionSuggestions/Entry/Entry"
 import MentionComponent from "./MentionComponent"
 import { Text } from "@/ui/components/text";
 
 // Draft-JS-Mentions plugin configuration
 const mentionPlugin = createMentionPlugin({
-  mentionComponent: (props: EntryComponentProps) => <MentionComponent mention={props.mention} />
+  mentionComponent: (props) => <MentionComponent mention={props.mention as Category} />
 })
 const { MentionSuggestions } = mentionPlugin
 const plugins = [mentionPlugin]
@@ -40,7 +39,7 @@ const MentionInput: React.FC<{
     ({ trigger, value }: { trigger: string; value: string }) => {
       setSuggestions(defaultSuggestionsFilter(value, categories, trigger));
     },
-    []
+    [categories]
   )
 
   useEffect(() => {
@@ -57,7 +56,6 @@ const MentionInput: React.FC<{
   }
 
   const onOpenChange = useCallback((_open: boolean) => {
-    console.log("onopenchange")
     setOpen(_open)
   }, [])
 

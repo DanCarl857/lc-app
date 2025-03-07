@@ -24,7 +24,7 @@ export default function Home() {
           <div className="flex flex-row justify-between">
             <div className="flex gap-2 flex-col">
               <p className="text-17 text-grey-2 font-500">Start Typing...</p>
-              <p className="text-[14px] text-grey-2 font-light">Use '@' to see possible suggestions</p>
+              <p className="text-[14px] text-grey-2 font-light">Use @ to see possible suggestions</p>
               <p className="text-[14px] text-grey-2 font-light">Backspace to delete</p>
             </div>
 
