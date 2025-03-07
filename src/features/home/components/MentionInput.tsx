@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 
 import "@draft-js-plugins/mention/lib/plugin.css"
-import { EditorState } from "draft-js"
+import { convertToRaw, EditorState } from "draft-js"
 import Editor from '@draft-js-plugins/editor'
 import createMentionPlugin, {
   defaultSuggestionsFilter,
@@ -12,6 +12,7 @@ import MentionComponent from "./MentionComponent"
 import { Text } from "@/ui/components/text";
 
 // Draft-JS-Mentions plugin configuration
+// we are usign a custom mention component in this case: MentionComponent
 const mentionPlugin = createMentionPlugin({
   mentionComponent: (props) => <MentionComponent mention={props.mention as Category} />
 })
@@ -29,6 +30,7 @@ const MentionInput: React.FC<{
   const [suggestions, setSuggestions] = useState<MentionData[]>(categories)
   const [open, setOpen] = useState(true)
   const [isFocused, setIsFocused] = useState(true)
+  const [results, setResults] = useState(0)
 
   // Draft-JS editor configuration
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
@@ -50,11 +52,20 @@ const MentionInput: React.FC<{
     }
   }, [])
 
+  // calculcate the results of whatever the user entered
+  const calculateResults = () => {
+    console.log("Calculating results...")
+    const contentState = editorState.getCurrentContent()
+    const raw = convertToRaw(contentState)
+    console.log(raw)
+  }
+
   // Set focus on the editor window 
   const focusEditor = () => {
     editorRef.current!.focus()
   }
 
+  // callback which is triggered whenever the suggestions popover should be opened or closed
   const onOpenChange = useCallback((_open: boolean) => {
     setOpen(_open)
   }, [])
@@ -75,15 +86,18 @@ const MentionInput: React.FC<{
           onSearchChange={onSearchChange}
           suggestions={suggestions}
           onAddMention={(value) => {
-            console.log(value)
+            console.log({ value })
           }}
           onOpenChange={onOpenChange}
           open={open}
         />
       </div>
-      <button className="bg-blue-8 rounded-lg px-3 py-2">
-        <Text className="text-[14px] text-surface">Calculate</Text>
-      </button>
+      <div className="flex flex-row items-center gap-4">
+        <button onClick={calculateResults} className="bg-blue-8 rounded-lg px-3 py-2">
+          <Text className="text-[14px] text-surface">Calculate</Text>
+        </button>
+        <Text className="text-[16px] font-medium">Total: {results}</Text>
+      </div>
     </div>
   );
 }

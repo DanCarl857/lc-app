@@ -22,10 +22,10 @@ const MentionComponent = ({ mention }: MentionProps) => {
         <DropdownTrigger>
           <button className="focus:outline-none">{mention.name} &#9660;</button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="Static Actions" className="outline-none drop-shadow bg-surface max-h-[400px] overflow-y-auto">
+        <DropdownMenu aria-label="Static Actions" className="outline-none drop-shadow bg-surface max-h-[400px] overflow-y-auto p-2">
           {categories.map((category) => (
-            <DropdownItem key={category.id} className="hover:bg-neutral-3 hover:rounded-lg">
-              <Text className="text-[14px]">{category.name}</Text>
+            <DropdownItem key={category.id} className="hover:bg-neutral-3 hover:rounded-lg my-2">
+              <Text className="text-[14px] p-1 m-1">{category.name}</Text>
             </DropdownItem>
           ))}
         </DropdownMenu>
