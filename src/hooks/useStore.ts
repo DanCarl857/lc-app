@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { StoreState } from "./types";
 
+// Simple store to store categories, update categories and keep track of loading states
 const useStore = create<StoreState>((set) => ({
   categories: [],
   isLoading: false,
