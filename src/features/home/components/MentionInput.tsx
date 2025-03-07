@@ -10,12 +10,10 @@ import createMentionPlugin, {
 import { Category } from "@/hooks/types"
 import { EntryComponentProps } from "@draft-js-plugins/mention/lib/MentionSuggestions/Entry/Entry"
 import MentionComponent from "./MentionComponent"
+import { Text } from "@/ui/components/text";
 
 // Draft-JS-Mentions plugin configuration
 const mentionPlugin = createMentionPlugin({
-  mentionPrefix: '',
-  entityMutability: 'IMMUTABLE',
-  mentionTrigger: '@',
   mentionComponent: (props: EntryComponentProps) => <MentionComponent mention={props.mention} />
 })
 const { MentionSuggestions } = mentionPlugin
@@ -85,9 +83,12 @@ const MentionInput: React.FC<{
           open={open}
         />
       </div>
+      <button className="bg-blue-8 rounded-lg px-3 py-2">
+        <Text className="text-[14px] text-surface">Calculate</Text>
+      </button>
     </div>
   );
 }
 
-export default MentionInput
+export default React.memo(MentionInput)
 

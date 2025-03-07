@@ -1,3 +1,4 @@
+import React from "react";
 import { IoIosArrowDropdown } from "react-icons/io"
 
 interface MentionProps {
@@ -21,4 +22,4 @@ const MentionComponent = ({ mention }: MentionProps) => {
   )
 }
 
-export default MentionComponent
+export default React.memo(MentionComponent)
