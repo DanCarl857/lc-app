@@ -84,24 +84,27 @@ const MentionInput: React.FC<{
 
   return (
     <div>
-      <div className="editor" onClick={() => focusEditor()}>
-        <Editor
-          editorState={editorState}
-          onChange={setEditorState}
-          plugins={plugins}
-          ref={editorRef}
-          editorKey={"editor"}
-          onBlur={() => setIsFocused(false)}
-        />
-        <MentionSuggestions
-          onSearchChange={onSearchChange}
-          suggestions={suggestions}
-          onAddMention={(value) => {
-            console.log({ value })
-          }}
-          onOpenChange={onOpenChange}
-          open={open}
-        />
+      <div className="border mb-7 border-blue-8 flex gap-2 flex-row items-center">
+        {/* {isFocused && <Text className="text-[18px] font-medium">=</Text>} */}
+        <div className="editor border-[1px] border-blue-8 w-[100%]" onClick={() => focusEditor()}>
+          <Editor
+            editorState={editorState}
+            onChange={setEditorState}
+            plugins={plugins}
+            ref={editorRef}
+            editorKey={"editor"}
+            onBlur={() => setIsFocused(false)}
+          />
+          <MentionSuggestions
+            onSearchChange={onSearchChange}
+            suggestions={suggestions}
+            onAddMention={(value) => {
+              console.log({ value })
+            }}
+            onOpenChange={onOpenChange}
+            open={open}
+          />
+        </div>
       </div>
       <div className="flex flex-row items-center gap-4">
         <button onClick={calculateResults} className="bg-blue-8 rounded-lg px-3 py-2">

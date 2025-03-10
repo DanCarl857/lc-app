@@ -10,17 +10,17 @@ interface MentionProps {
 
 const MentionComponent = ({ mention }: MentionProps) => {
   const [selectedCategory, setSelectedCategory] = useState(mention)
-  // console.log(mention)
   const { categories } = useStore()
 
   const handleClick = () => {
     console.log("we just clicked")
   }
 
+  // Handle when a dropdow item is selected
   const handleAction = (item: Key) => setSelectedCategory(categories[Number(item) - 1])
 
   return (
-    <span onClick={handleClick} className="w-fit items-center gap-2 rounded-lg px-2 py-1 bg-blue-5 cursor-pointer">
+    <span onClick={handleClick} className="w-fit items-center gap-2 rounded-full px-2 py-1 bg-blue-5 cursor-pointer">
       <Dropdown className="focuse:outline-none">
         <DropdownTrigger>
           <button className="focus:outline-none">
@@ -35,10 +35,10 @@ const MentionComponent = ({ mention }: MentionProps) => {
           {categories.map((category) => (
             <DropdownItem key={category.id} className="hover:bg-neutral-3 hover:rounded-lg my-2">
               <div>
-                <Text className="text-[14px] p-1 m-1 w-[100%]">{category.name}</Text>
-                <div className="w-[100%] flex flex-row items-center m-1 p-1 gap-2">
-                  <Text className="text-[10px]">Category: {category.category}</Text>
-                  <Text className="text-[10px]">Value: {category.value}</Text>
+                <Text className="text-[14px] p-1 mx-1 w-[100%]">{category.name}</Text>
+                <div className="w-[100%] flex flex-row items-center mx-1 mb-1 p-1 gap-2">
+                  <Text className="text-[10px]"><b>Category:</b> {category.category}</Text>
+                  <Text className="text-[10px]"><b>Value:</b> {category.value}</Text>
                 </div>
               </div>
             </DropdownItem>

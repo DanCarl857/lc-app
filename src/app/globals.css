@@ -40,11 +40,8 @@ body {
 
 .editor {
   box-sizing: border-box;
-  border: 1px solid #ddd;
   cursor: text;
-  padding: 16px;
-  border-radius: 2px;
-  margin-bottom: 2em;
+  padding: 10px;
   background: #fefefe;
 }
 
