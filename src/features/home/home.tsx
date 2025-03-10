@@ -29,6 +29,7 @@ export default function Home() {
               <p className="text-17 text-grey-2 font-500">Start Typing...</p>
               <p className="text-[14px] text-grey-2 font-light">Use @ to see possible suggestions</p>
               <p className="text-[14px] text-grey-2 font-light">Backspace to delete</p>
+              <p className="text-[14px] text-grey-2 font-light">Click on tag to change more options</p>
             </div>
 
           </div>

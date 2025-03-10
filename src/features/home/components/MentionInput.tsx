@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 
 import "@draft-js-plugins/mention/lib/plugin.css"
-import { convertToRaw, EditorState } from "draft-js"
+import { EditorState } from "draft-js"
 import Editor from '@draft-js-plugins/editor'
 import createMentionPlugin, {
   defaultSuggestionsFilter,
@@ -10,7 +10,6 @@ import createMentionPlugin, {
 import { Category } from "@/hooks/types"
 import MentionComponent from "./MentionComponent"
 import { Text } from "@/ui/components/text";
-import { customSuggestionsFilter } from "@/utils/customSuggestionsFilter"
 
 // Draft-JS-Mentions plugin configuration
 // we are usign a custom mention component in this case: MentionComponent
@@ -52,24 +51,24 @@ const MentionInput: React.FC<{
         editorRef?.current?.focus();
       }, 200)
     }
-  }, [])
+  }, [isFocused])
 
   // calculcate the results of whatever the user entered
   const calculateResults = () => {
     console.log("Calculating results...")
-    const contentState = editorState.getCurrentContent()
-    const raw = convertToRaw(contentState)
-    console.log(raw)
-
-    let cat = []
-    for (let key in raw.entityMap) {
-      const ent = raw.entityMap[key]
-      console.log({ ent })
-      if (ent.type === "mention") {
-        cat.push(ent.data.mention)
-      }
-    }
-    console.log({ cat })
+    // const contentState = editorState.getCurrentContent()
+    // const raw = convertToRaw(contentState)
+    // console.log(raw)
+    //
+    // let cat = []
+    // for (let key in raw.entityMap) {
+    //   const ent = raw.entityMap[key]
+    //   console.log({ ent })
+    //   if (ent.type === "mention") {
+    //     cat.push(ent.data.mention)
+    //   }
+    // }
+    // console.log({ cat })
   }
 
   // Set focus on the editor window 

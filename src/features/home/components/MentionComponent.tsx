@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Key, useState } from "react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown"
 import useStore from "@/hooks/useStore"
 import { Text } from "@/ui/components/text"
@@ -9,22 +9,29 @@ interface MentionProps {
 }
 
 const MentionComponent = ({ mention }: MentionProps) => {
-  console.log(mention)
+  const [selectedCategory, setSelectedCategory] = useState(mention)
+  // console.log(mention)
   const { categories } = useStore()
 
   const handleClick = () => {
     console.log("we just clicked")
   }
 
+  const handleAction = (item: Key) => setSelectedCategory(categories[Number(item) - 1])
+
   return (
     <span onClick={handleClick} className="w-fit items-center gap-2 rounded-lg px-2 py-1 bg-blue-5 cursor-pointer">
       <Dropdown className="focuse:outline-none">
         <DropdownTrigger>
           <button className="focus:outline-none">
-            <span>{mention.name}</span>
+            <span>{selectedCategory.name}</span>
           </button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="Static Actions" className="outline-none drop-shadow bg-surface max-h-[400px] overflow-y-auto p-2">
+        <DropdownMenu
+          aria-label="Static Actions"
+          className="outline-none drop-shadow bg-surface max-h-[400px] overflow-y-auto p-2"
+          onAction={handleAction}
+        >
           {categories.map((category) => (
             <DropdownItem key={category.id} className="hover:bg-neutral-3 hover:rounded-lg my-2">
               <div>
