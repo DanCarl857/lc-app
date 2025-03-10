@@ -10,10 +10,12 @@ import createMentionPlugin, {
 import { Category } from "@/hooks/types"
 import MentionComponent from "./MentionComponent"
 import { Text } from "@/ui/components/text";
+import { customSuggestionsFilter } from "@/utils/customSuggestionsFilter"
 
 // Draft-JS-Mentions plugin configuration
 // we are usign a custom mention component in this case: MentionComponent
 const mentionPlugin = createMentionPlugin({
+  entityMutability: "IMMUTABLE",
   mentionComponent: (props) => <MentionComponent mention={props.mention as Category} />
 })
 const { MentionSuggestions } = mentionPlugin
@@ -38,8 +40,8 @@ const MentionInput: React.FC<{
 
   // Check editor for mentions
   const onSearchChange = useCallback(
-    ({ trigger, value }: { trigger: string; value: string }) => {
-      setSuggestions(defaultSuggestionsFilter(value, categories, trigger));
+    ({ value }: { value: string }) => {
+      setSuggestions(defaultSuggestionsFilter(value, categories));
     },
     [categories]
   )
@@ -58,6 +60,16 @@ const MentionInput: React.FC<{
     const contentState = editorState.getCurrentContent()
     const raw = convertToRaw(contentState)
     console.log(raw)
+
+    let cat = []
+    for (let key in raw.entityMap) {
+      const ent = raw.entityMap[key]
+      console.log({ ent })
+      if (ent.type === "mention") {
+        cat.push(ent.data.mention)
+      }
+    }
+    console.log({ cat })
   }
 
   // Set focus on the editor window 

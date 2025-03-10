@@ -20,7 +20,9 @@ const MentionComponent = ({ mention }: MentionProps) => {
     <span onClick={handleClick} className="w-fit items-center gap-2 rounded-lg px-2 py-1 bg-blue-5 cursor-pointer">
       <Dropdown className="focuse:outline-none">
         <DropdownTrigger>
-          <button className="focus:outline-none">{mention.name} &#9660;</button>
+          <button className="focus:outline-none">
+            <span>{mention.name}</span>
+          </button>
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions" className="outline-none drop-shadow bg-surface max-h-[400px] overflow-y-auto p-2">
           {categories.map((category) => (
