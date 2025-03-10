@@ -27,7 +27,13 @@ const MentionComponent = ({ mention }: MentionProps) => {
         <DropdownMenu aria-label="Static Actions" className="outline-none drop-shadow bg-surface max-h-[400px] overflow-y-auto p-2">
           {categories.map((category) => (
             <DropdownItem key={category.id} className="hover:bg-neutral-3 hover:rounded-lg my-2">
-              <Text className="text-[14px] p-1 m-1">{category.name}</Text>
+              <div>
+                <Text className="text-[14px] p-1 m-1 w-[100%]">{category.name}</Text>
+                <div className="w-[100%] flex flex-row items-center m-1 p-1 gap-2">
+                  <Text className="text-[10px]">Category: {category.category}</Text>
+                  <Text className="text-[10px]">Value: {category.value}</Text>
+                </div>
+              </div>
             </DropdownItem>
           ))}
         </DropdownMenu>
