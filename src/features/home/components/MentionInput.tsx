@@ -85,8 +85,8 @@ const MentionInput: React.FC<{
   return (
     <div>
       <div className="border mb-7 border-blue-8 flex gap-2 flex-row items-center">
-        {/* {isFocused && <Text className="text-[18px] font-medium">=</Text>} */}
-        <div className="editor border-[1px] border-blue-8 w-[100%]" onClick={() => focusEditor()}>
+        <Text className="text-[18px] font-medium">=</Text>
+        <div className="editor w-[100%]" onClick={() => focusEditor()}>
           <Editor
             editorState={editorState}
             onChange={setEditorState}

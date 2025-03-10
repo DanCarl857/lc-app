@@ -45,7 +45,6 @@ body {
   background: #fefefe;
 }
 
-.editor :global(.public-DraftEditor-content) {
+.editor:global(.public-DraftEditor-content) {
   min-height: 140px;
 }
-

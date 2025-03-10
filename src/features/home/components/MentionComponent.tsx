@@ -20,11 +20,13 @@ const MentionComponent = ({ mention }: MentionProps) => {
   const handleAction = (item: Key) => setSelectedCategory(categories[Number(item) - 1])
 
   return (
-    <span onClick={handleClick} className="w-fit items-center gap-2 rounded-full px-2 py-1 bg-blue-5 cursor-pointer">
+    <span onClick={handleClick} className="w-fit items-center gap-2 rounded-full px-3 py-1 bg-blue-5 cursor-pointer">
       <Dropdown className="focuse:outline-none">
         <DropdownTrigger>
           <button className="focus:outline-none">
-            <span>{selectedCategory.name}</span>
+            <span className="text-[14px]">
+              {selectedCategory.name}
+            </span>
           </button>
         </DropdownTrigger>
         <DropdownMenu
